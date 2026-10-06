@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="220" viewBox="0 0 1000 220">
+  <style>
+    .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+    .edge { stroke: #3fb950; stroke-opacity: .28; stroke-width: 1.2; fill: none; }
+    .node { fill: #0d1117; stroke: #3fb950; stroke-width: 1.5; }
+    .hub  { fill: #3fb950; }
+    .pulse { fill: #3fb950; opacity: 0; }
+    .p1 { animation: travel 4s linear infinite; offset-path: path('M720 110 L820 60'); }
+    .p2 { animation: travel 4s linear 1.3s infinite; offset-path: path('M720 110 L860 120'); }
+    .p3 { animation: travel 4s linear 2.6s infinite; offset-path: path('M720 110 L800 170'); }
+    .p4 { animation: travel 5s linear .6s infinite; offset-path: path('M720 110 L640 60'); }
+    .p5 { animation: travel 5s linear 2.1s infinite; offset-path: path('M720 110 L620 160'); }
+    @keyframes travel { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+    .blink { animation: blink 1.2s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+
+  <rect width="1000" height="220" rx="14" fill="#0d1117"/>
+  <rect x=".5" y=".5" width="999" height="219" rx="13.5" fill="none" stroke="#30363d"/>
+
+  <!-- left: identity -->
+  <text x="56" y="74" class="mono" font-size="14" fill="#3fb950">@randomwhitehat<tspan class="blink">_</tspan></text>
+  <text x="54" y="128" class="sans" font-size="46" font-weight="700" fill="#e6edf3" letter-spacing="-1">Kent Tan</text>
+  <text x="56" y="164" class="sans" font-size="18" fill="#8b949e">Backend tech lead&#160;&#160;·&#160;&#160;.NET&#160;&#160;·&#160;&#160;AI agents</text>
+
+  <!-- right: a small service graph -->
+  <g>
+    <path class="edge" d="M720 110 L820 60 M720 110 L860 120 M720 110 L800 170 M720 110 L640 60 M720 110 L620 160 M820 60 L860 120 M860 120 L800 170 M640 60 L620 160 M820 60 L900 40 M860 120 L940 150"/>
+    <circle class="pulse p1" r="3"/><circle class="pulse p2" r="3"/><circle class="pulse p3" r="3"/>
+    <circle class="pulse p4" r="3"/><circle class="pulse p5" r="3"/>
+    <circle class="node" cx="820" cy="60" r="7"/>
+    <circle class="node" cx="860" cy="120" r="7"/>
+    <circle class="node" cx="800" cy="170" r="7"/>
+    <circle class="node" cx="640" cy="60" r="7"/>
+    <circle class="node" cx="620" cy="160" r="7"/>
+    <circle class="node" cx="900" cy="40" r="5"/>
+    <circle class="node" cx="940" cy="150" r="5"/>
+    <circle cx="720" cy="110" r="18" fill="#3fb950" fill-opacity=".12"/>
+    <circle class="hub" cx="720" cy="110" r="9"/>
+  </g>
+</svg>
