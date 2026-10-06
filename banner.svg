@@ -1,42 +1,140 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="220" viewBox="0 0 1000 220">
+  <defs>
+    <radialGradient id="a1" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#6366f1" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="a2" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#06b6d4" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="a3" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#d946ef" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#d946ef" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="hubGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edgeGrad" x1="600" y1="0" x2="950" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset=".6" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#e879f9"/>
+    </linearGradient>
+    <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#ffffff" fill-opacity=".07"/>
+    </pattern>
+    <linearGradient id="dotsFade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset=".35" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="dotsMask"><rect width="1000" height="220" fill="url(#dotsFade)"/></mask>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#a5f3fc" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#e879f9" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="ruleClip"><rect x="56" y="185" width="888" height="3"/></clipPath>
+    <clipPath id="frame"><rect width="1000" height="220" rx="16"/></clipPath>
+  </defs>
+
   <style>
     .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-    .edge { stroke: #3fb950; stroke-opacity: .28; stroke-width: 1.2; fill: none; }
-    .node { fill: #0d1117; stroke: #3fb950; stroke-width: 1.5; }
-    .hub  { fill: #3fb950; }
-    .pulse { fill: #3fb950; opacity: 0; }
-    .p1 { animation: travel 4s linear infinite; offset-path: path('M720 110 L820 60'); }
-    .p2 { animation: travel 4s linear 1.3s infinite; offset-path: path('M720 110 L860 120'); }
-    .p3 { animation: travel 4s linear 2.6s infinite; offset-path: path('M720 110 L800 170'); }
-    .p4 { animation: travel 5s linear .6s infinite; offset-path: path('M720 110 L640 60'); }
-    .p5 { animation: travel 5s linear 2.1s infinite; offset-path: path('M720 110 L620 160'); }
-    @keyframes travel { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
-    .blink { animation: blink 1.2s steps(1) infinite; }
+
+    /* aurora drift */
+    .d1 { animation: d1 18s ease-in-out infinite alternate; }
+    .d2 { animation: d2 22s ease-in-out infinite alternate; }
+    .d3 { animation: d3 26s ease-in-out infinite alternate; }
+    @keyframes d1 { to { transform: translate(-80px, 30px); } }
+    @keyframes d2 { to { transform: translate(60px, -25px); } }
+    @keyframes d3 { to { transform: translate(-50px, -20px); } }
+
+    /* graph */
+    .edge  { stroke: url(#edgeGrad); stroke-opacity: .35; stroke-width: 1.2; fill: none; }
+    .node  { fill: #09090b; stroke: #67e8f9; stroke-width: 1.5; }
+    .node.m { stroke: #c4b5fd; }
+    .node.p { stroke: #f0abfc; }
+    .tw1 { animation: tw 3.2s ease-in-out infinite; }
+    .tw2 { animation: tw 4.1s ease-in-out .8s infinite; }
+    .tw3 { animation: tw 3.7s ease-in-out 1.6s infinite; }
+    @keyframes tw { 0%,100% { stroke-opacity: 1; } 50% { stroke-opacity: .35; } }
+
+    .pk { opacity: 0; }
+    .pk.c { fill: #a5f3fc; } .pk.v { fill: #ddd6fe; } .pk.f { fill: #f5d0fe; }
+    .p1 { offset-path: path('M720 110 L820 60');  animation: travel 3.6s linear infinite; }
+    .p2 { offset-path: path('M720 110 L860 120'); animation: travel 3.6s linear 1.2s infinite; }
+    .p3 { offset-path: path('M720 110 L800 170'); animation: travel 3.6s linear 2.4s infinite; }
+    .p4 { offset-path: path('M640 60 L720 110');  animation: travel 4.4s linear .5s infinite; }
+    .p5 { offset-path: path('M620 160 L720 110'); animation: travel 4.4s linear 2.7s infinite; }
+    .p6 { offset-path: path('M820 60 L900 40');   animation: travel 3s linear 1.8s infinite; }
+    .p7 { offset-path: path('M860 120 L940 150'); animation: travel 3s linear .9s infinite; }
+    .p8 { offset-path: path('M860 120 L800 170'); animation: travel 3.4s linear 3s infinite; }
+    @keyframes travel { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+
+    .hubglow { transform-origin: 720px 110px; animation: breathe 3s ease-in-out infinite; }
+    @keyframes breathe { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.25); opacity: .55; } }
+    .ping { transform-origin: 720px 110px; animation: ping 3s ease-out infinite; }
+    .ping2 { animation-delay: 1.5s; }
+    @keyframes ping { 0% { transform: scale(.4); opacity: .7; } 100% { transform: scale(3.2); opacity: 0; } }
+    .orbit { transform-origin: 720px 110px; animation: spin 24s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .sweep { animation: sweep 6s ease-in-out infinite; }
+    @keyframes sweep { 0% { transform: translateX(-260px); } 60%,100% { transform: translateX(1000px); } }
+
+    .blink { animation: blink 1.1s steps(1) infinite; }
     @keyframes blink { 50% { opacity: 0; } }
   </style>
 
-  <rect width="1000" height="220" rx="14" fill="#0d1117"/>
-  <rect x=".5" y=".5" width="999" height="219" rx="13.5" fill="none" stroke="#30363d"/>
+  <g clip-path="url(#frame)">
+    <rect width="1000" height="220" fill="#09090b"/>
+    <ellipse class="d1" cx="800" cy="60"  rx="260" ry="150" fill="url(#a1)"/>
+    <ellipse class="d2" cx="920" cy="190" rx="220" ry="130" fill="url(#a2)"/>
+    <ellipse class="d3" cx="620" cy="200" rx="200" ry="110" fill="url(#a3)"/>
+    <rect width="1000" height="220" fill="url(#dots)" mask="url(#dotsMask)"/>
 
-  <!-- left: identity -->
-  <text x="56" y="74" class="mono" font-size="14" fill="#3fb950">@randomwhitehat<tspan class="blink">_</tspan></text>
-  <text x="54" y="128" class="sans" font-size="46" font-weight="700" fill="#e6edf3" letter-spacing="-1">Kent Tan</text>
-  <text x="56" y="164" class="sans" font-size="18" fill="#8b949e">Backend tech lead&#160;&#160;·&#160;&#160;.NET&#160;&#160;·&#160;&#160;AI agents</text>
+    <!-- service graph -->
+    <g>
+      <path class="edge" d="M720 110 L820 60 M720 110 L860 120 M720 110 L800 170 M720 110 L640 60 M720 110 L620 160 M820 60 L860 120 M860 120 L800 170 M640 60 L620 160 M820 60 L900 40 M860 120 L940 150"/>
 
-  <!-- right: a small service graph -->
-  <g>
-    <path class="edge" d="M720 110 L820 60 M720 110 L860 120 M720 110 L800 170 M720 110 L640 60 M720 110 L620 160 M820 60 L860 120 M860 120 L800 170 M640 60 L620 160 M820 60 L900 40 M860 120 L940 150"/>
-    <circle class="pulse p1" r="3"/><circle class="pulse p2" r="3"/><circle class="pulse p3" r="3"/>
-    <circle class="pulse p4" r="3"/><circle class="pulse p5" r="3"/>
-    <circle class="node" cx="820" cy="60" r="7"/>
-    <circle class="node" cx="860" cy="120" r="7"/>
-    <circle class="node" cx="800" cy="170" r="7"/>
-    <circle class="node" cx="640" cy="60" r="7"/>
-    <circle class="node" cx="620" cy="160" r="7"/>
-    <circle class="node" cx="900" cy="40" r="5"/>
-    <circle class="node" cx="940" cy="150" r="5"/>
-    <circle cx="720" cy="110" r="18" fill="#3fb950" fill-opacity=".12"/>
-    <circle class="hub" cx="720" cy="110" r="9"/>
+      <circle class="ping"       cx="720" cy="110" r="18" fill="none" stroke="#22d3ee" stroke-width="1"/>
+      <circle class="ping ping2" cx="720" cy="110" r="18" fill="none" stroke="#a78bfa" stroke-width="1"/>
+      <g class="orbit">
+        <circle cx="720" cy="110" r="30" fill="none" stroke="#67e8f9" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 6"/>
+        <circle cx="750" cy="110" r="2" fill="#a5f3fc"/>
+      </g>
+
+      <g filter="url(#glow)">
+        <circle class="pk c p1" r="2.5"/><circle class="pk v p2" r="2.5"/><circle class="pk c p3" r="2.5"/>
+        <circle class="pk c p4" r="2.5"/><circle class="pk f p5" r="2.5"/><circle class="pk v p6" r="2"/>
+        <circle class="pk f p7" r="2"/><circle class="pk v p8" r="2"/>
+
+        <circle class="node tw1"   cx="640" cy="60"  r="6"/>
+        <circle class="node p tw2" cx="620" cy="160" r="6"/>
+        <circle class="node m tw3" cx="820" cy="60"  r="6"/>
+        <circle class="node m tw1" cx="860" cy="120" r="6"/>
+        <circle class="node tw2"   cx="800" cy="170" r="6"/>
+        <circle class="node p tw3" cx="900" cy="40"  r="4.5"/>
+        <circle class="node p tw1" cx="940" cy="150" r="4.5"/>
+      </g>
+
+      <circle class="hubglow" cx="720" cy="110" r="26" fill="url(#hubGlow)"/>
+      <circle cx="720" cy="110" r="8" fill="#ecfeff" filter="url(#glow)"/>
+    </g>
+
+    <!-- bottom rule with a light sweep -->
+    <rect x="56" y="186" width="888" height="1" fill="#ffffff" fill-opacity=".08"/>
+    <g clip-path="url(#ruleClip)"><rect class="sweep" x="0" y="186" width="260" height="1" fill="url(#rule)"/></g>
   </g>
+  <rect x=".5" y=".5" width="999" height="219" rx="15.5" fill="none" stroke="#ffffff" stroke-opacity=".08"/>
+
+  <!-- identity -->
+  <text x="56" y="66" class="mono" font-size="13" fill="#67e8f9" letter-spacing="1.5">@randomwhitehat<tspan class="blink">_</tspan></text>
+  <text x="54" y="122" class="sans" font-size="50" font-weight="600" fill="#fafafa" letter-spacing="-1.5">Kent Tan</text>
+  <text x="56" y="156" class="sans" font-size="17" fill="#a1a1aa">Backend tech lead<tspan fill="#818cf8">&#160;&#160;/&#160;&#160;</tspan>.NET<tspan fill="#818cf8">&#160;&#160;/&#160;&#160;</tspan>AI agents</text>
 </svg>
